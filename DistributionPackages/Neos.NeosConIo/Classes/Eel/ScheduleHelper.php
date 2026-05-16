@@ -157,7 +157,7 @@ class ScheduleHelper implements ProtectedContextAwareInterface
                 $stage = $roomNode?->properties['name'] ?? '';
 
                 // Resolve all speaker references → list of aggregateId strings
-                $speakerIds[] = $subgraph->findReferences(
+                $speakerIds = $subgraph->findReferences(
                     $topic->aggregateId,
                     FindReferencesFilter::create(referenceName: 'speakers')
                 )->getNodes()->map(static fn(Node $node) => $node->aggregateId->value);
