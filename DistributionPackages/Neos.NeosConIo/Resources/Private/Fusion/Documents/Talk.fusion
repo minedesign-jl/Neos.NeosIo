@@ -15,7 +15,7 @@ prototype(Neos.NeosConIo:Talk) < prototype(Neos.NeosIo:DefaultPage) {
                 video = ${node.properties.video}
             }
 
-            speakerList = Neos.NeosConIo:SpeakerList {
+            speakerList = Neos.NeosConIo:Talk.SpeakerList {
                 @if.hasSpeakers = ${!Array.isEmpty(q(node).referenceNodes('speakers'))}
                 items = ${q(node).referenceNodes('speakers')}
             }
@@ -28,8 +28,8 @@ prototype(Neos.NeosConIo:Talk) < prototype(Neos.NeosIo:DefaultPage) {
 
             isTalkListVisible = ${!Array.isEmpty(q(node).referenceNodes('relatedTalks'))}
             talkList = Neos.NeosConIo:TalkList {
-                items = ${q(node).referenceNodes('relatedTalks')}
-                itemRenderer.@if.talkHasCorrectEvent = true
+                talks = ${q(node).referenceNodes('relatedTalks')}
+                eventToFilter = null
             }
         }
     }

@@ -60,6 +60,12 @@ $grid-gutter: $column-gutter / 2;
   &--item {
     display: flex;
     flex-direction: column;
+    grid-gap: #{$grid-gutter *2};
+    >.neos-contentcollection {
+      > *:not(:last-child) {
+        margin-bottom: var(--n-spacing--y-small);
+      }
+    }
 
     &--more-link {
       margin-top: auto;

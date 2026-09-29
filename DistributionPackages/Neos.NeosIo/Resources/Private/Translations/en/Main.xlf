@@ -17,6 +17,13 @@
             <trans-unit id="choiceButton.or" xml:space="preserve">
                 <source>or</source>
             </trans-unit>
+            <trans-unit id="languageMenu.switch" xml:space="preserve">
+                <source>Switch to German</source>
+            </trans-unit>
+
+            <trans-unit id="back.to.list" xml:space="preserve">
+                <source>Back to overview</source>
+            </trans-unit>
             <trans-unit id="supporters" xml:space="preserve">
                 <source>supporters</source>
             </trans-unit>

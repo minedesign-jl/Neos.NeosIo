@@ -1,7 +1,6 @@
 .ticket-sales-disruptor {
   width: 100%;
-  padding-top: $header-height--medium;
-  padding-bottom: 60px;
+  padding-block: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,7 +17,7 @@
   }
 
   @include max-screen(992px) {
-    padding-bottom: 20px;
+    padding-block: 20px;
   }
 }
 
@@ -39,11 +38,6 @@
 
 .ticket-sales-disruptor__call-to-action {
   align-self: flex-end;
-  margin-bottom: 10px;
-
-  .btn__content {
-    height: 46px;
-  }
 
   @include max-screen(992px) {
     justify-self: center;
@@ -58,7 +52,6 @@
 
   background-color: #fff;
   border: 3px solid #fff;
-  clip-path: polygon(0 10px, 10px 0, 100% 0, 100% 100%, 0 100%);
 
   font-size: 1.1rem;
 }
@@ -131,7 +124,6 @@
   top: 0;
 
   background-color: #F1C21B;
-  clip-path: polygon(0 10px, 10px 0, 100% 0, 100% 30px, calc(100% - 10px) 100%, 0 100%);
   animation: grow 1.5s ease-out 500ms forwards;
 }
 
@@ -148,12 +140,12 @@
 .ticket-sales-disruptor__fixed {
   display: none;
   position: fixed;
-  top: 0;
+  top: $header-height--fixed;
   left: 0;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: $header-height--fixed;
+  padding-block: calc(var(--spacing)*4);
 
   background-color: #{brand('primary')};
   z-index: z('disruptor');

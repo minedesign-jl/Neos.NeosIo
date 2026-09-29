@@ -1,4 +1,7 @@
-prototype(Neos.NeosIo:Content.Disruptor) < prototype(Neos.Fusion:Component) {
+prototype(Neos.NeosIo:Component.Disruptor.Renderer) < prototype(Neos.Fusion:Component) {
+    disruptorNode = ${q(site).children('disruptor').get(0)}
+    @context.disruptorNode = ${this.disruptorNode}
+
     // enable editing only on start-page. Per default a content collection rendered on all pages would be editable on all pages.
     prototype(Neos.Neos:ContentCollection) {
         @process.contentElementWrapping.@if.enableOnlyOnStartPage = ${documentNode.aggregateId.value == site.aggregateId.value}
@@ -6,11 +9,13 @@ prototype(Neos.NeosIo:Content.Disruptor) < prototype(Neos.Fusion:Component) {
     prototype(Neos.Neos:ContentComponent) {
         @process.contentElementWrapping.@if.enableOnlyOnStartPage = ${documentNode.aggregateId.value == site.aggregateId.value}
     }
-    @private.disruptorContent = Neos.Fusion:Case {
+
+    renderer = Neos.Fusion:Case {
         hasContentSection {
-            condition = ${q(site).children('disruptor').get(0)}
+            condition = ${props.disruptorNode && q(props.disruptorNode).children().count() > 0}
             renderer = Neos.Neos:ContentCollection {
-                @context.node = ${q(site).children('disruptor').get(0)}
+                @context.node = ${props.disruptorNode}
+                attributes.class = 'disruptor-wrapper'
             }
         }
         fallback {
@@ -19,7 +24,21 @@ prototype(Neos.NeosIo:Content.Disruptor) < prototype(Neos.Fusion:Component) {
         }
     }
 
-    renderer = afx`
-        {private.disruptorContent}
-    `
+    @cache {
+        mode = 'cached'
+        entryIdentifier {
+            static = 'disruptor'
+            site = ${Neos.Caching.entryIdentifierForNode(site)}
+        }
+        entryTags {
+            disruptorNode = ${disruptorNode ? Neos.Caching.nodeTag(disruptorNode) : null}
+            disruptors = ${disruptorNode ? Neos.Caching.descendantOfTag(disruptorNode) : null}
+        }
+    }
 }
+
+prototype(Neos.NeosIo:Component.Disruptor) < prototype(Neos.Fusion:Renderer) {
+    renderPath = '/disruptor'
+}
+
+disruptor = Neos.NeosIo:Component.Disruptor.Renderer

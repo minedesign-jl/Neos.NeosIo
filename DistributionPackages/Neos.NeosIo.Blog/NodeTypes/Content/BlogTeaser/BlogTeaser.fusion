@@ -10,7 +10,7 @@ prototype(Neos.NeosIo.Blog:Content.BlogTeaser) < prototype(Neos.Neos:ContentComp
         blogPostToDisplay = Neos.Fusion:Case {
             latestBlogPost {
                 condition = ${!props.blogPost && props.blogFeed}
-                renderer = ${q(props.blogFeed).children('[instanceof Neos.NeosIo:Post]').get(0)}
+                renderer = ${q(props.blogFeed).find('[instanceof Neos.NeosIo:Post]').sort('datePublished', 'DESC').get(0)}
             }
             default {
                 condition = true
@@ -19,7 +19,6 @@ prototype(Neos.NeosIo.Blog:Content.BlogTeaser) < prototype(Neos.Neos:ContentComp
         }
         title = ${q(private.blogPostToDisplay).property('title')}
         text = ${q(private.blogPostToDisplay).property('summary')}
-        alternativeText = 'TODO'
         image = ${q(private.blogPostToDisplay).property('keyVisualImage')}
         link = Neos.Neos:NodeUri {
             node = ${private.blogPostToDisplay}
@@ -27,12 +26,32 @@ prototype(Neos.NeosIo.Blog:Content.BlogTeaser) < prototype(Neos.Neos:ContentComp
         }
     }
 
-    renderer = Neos.NeosIo:Component.ImageTeaser {
+    renderer = Neos.Presentation:ContentTeaser {
         title = ${private.title}
         subTitle = ${props.subTitle}
         text = ${private.text}
-        alternativeText = ${private.alternativeText}
-        image = ${private.image}
+        image = Neos.Presentation:Component.PictureTag {
+            asset = ${private.image}
+            imgClasses = "absolute object-cover w-full h-full"
+            alt = Neos.Fusion:Case {
+                hasAlternativeText {
+                    condition = ${q(private.blogPostToDisplay).property('keyVisualAlternativeText')}
+                    renderer = ${q(private.blogPostToDisplay).property('keyVisualAlternativeText')}
+                }
+                hasImageCaption {
+                    condition = ${q(private.blogPostToDisplay).property('keyVisualImage').caption}
+                    renderer = ${q(private.blogPostToDisplay).property('keyVisualImage').caption}
+                }
+                label {
+                    condition = ${private.blogPostToDisplay != null}
+                    renderer = ${Neos.Node.label(private.blogPostToDisplay)}
+                }
+                fallback {
+                    condition = true
+                    renderer = ''
+                }
+            }
+        }
         link = ${private.link}
     }
 

@@ -8,7 +8,7 @@ prototype(Neos.NeosIo:Component.Badge) < prototype(Neos.Fusion:Component) {
 
     @propTypes {
         @strict = true
-        image = ${PropTypes.instanceOf('Neos\Media\Domain\Model\ImageInterface')}
+        image = ${PropTypes.string}
         highlight = ${PropTypes.boolean}
         description = ${PropTypes.string}
         link = ${PropTypes.string}
@@ -27,13 +27,7 @@ prototype(Neos.NeosIo:Component.Badge) < prototype(Neos.Fusion:Component) {
 
     renderer = afx`
         <div class={private.class}>
-            <Neos.Neos:ImageTag
-                @if={props.image}
-                asset={props.image}
-                width="360"
-                attributes.class="badge__image"
-                attributes.alt={"Logo of " + props.linkText + " badge"}
-            />
+            {props.image}
             <img
                 @if={private.inBackend && !props.image}
                 class="badge__image"
@@ -45,17 +39,15 @@ prototype(Neos.NeosIo:Component.Badge) < prototype(Neos.Fusion:Component) {
             <div @if.set={!String.isBlank(props.description)} class="badge__description">
                 {props.description}
             </div>
-            <Neos.Fusion:Tag
-                tagName={props.link && !private.inBackend ? 'a' : 'div'}
-                attributes.class="badge__linktext btn btn--solidPrimary"
-                attributes.href={props.link}
-                attributes.href.@if={props.link && !private.inBackend}
-                attributes.target={props.openInNewTab ? '_blank' : null}
-            >
-                <span class="btn__content">
-                    {props.linkText}
-                </span>
-            </Neos.Fusion:Tag>
+
+            <Neos.Presentation:Button
+                href={props.link}
+                content={props.linkText}
+                openInNewTab={props.openInNewTab}
+                class="whitespace-normal!"
+                variant="transparent"
+                fullWidth
+            />
         </div>
 
     `

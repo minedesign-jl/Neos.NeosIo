@@ -4,17 +4,14 @@ prototype(Neos.NeosIo.ServiceOfferings:Component.Provider.Donations) < prototype
     renderer = afx`
         <div class="service-provider__donations">
             <div @if.set={Type.isArray(props.badges) && Array.length(props.badges)} class="service-provider__badges">
-                <h2>Sponsorship badges</h2>
+                <h2 class="display-title-lg mb-4">Sponsorship badges</h2>
                 <div class="service-provider__badge-wrap">
                     <Neos.Fusion:Loop items={props.badges} itemName="badge">
-                        <div>
-                            <Neos.Neos:ImageTag
-                                asset={q(badge).property('image')}
-                                attributes.width={120}
-                                attributes.height={180}
-                                attributes.alt={q(badge).property('description')}
-                            />
-                        </div>
+                        <Neos.Presentation:Component.PictureTag
+                            asset={q(badge).property('image')}
+                            alt={q(badge).property('description')}
+                            sizes={['120px']}
+                        />
                     </Neos.Fusion:Loop>
                 </div>
             </div>

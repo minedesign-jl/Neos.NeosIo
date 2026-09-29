@@ -11,9 +11,10 @@ prototype(Neos.NeosConIo:Speaker) < prototype(Neos.NeosIo:DefaultPage) {
                 property = "text"
             }
 
-            imageUri = Neos.Neos:ImageUri {
+            image = Neos.Presentation:Component.PictureTag {
                 asset = ${q(node).property('image')}
-                allowCropping = true
+                alt = ${"Picture of " + q(node).property('title')}
+                imgClasses = "speaker__image"
             }
 
             company = ${node.properties.company}
@@ -25,48 +26,11 @@ prototype(Neos.NeosConIo:Speaker) < prototype(Neos.NeosIo:DefaultPage) {
             // node is the speaker here
             @context.featuredTalkNode = ${q(node).referenceNodes('featuredTalk').get(0)}
 
-            featuredTalk = Neos.NeosIo:ImageTeaser {
-                title = ${q(featuredTalkNode).property('title')}
-                rawTitle = ${this.title}
-                image = ${q(featuredTalkNode).property('thumbnail')}
-                fallbackImageUrl = ${(q(featuredTalkNode).property('video') && !q(featuredTalkNode).property('thumbnail')) ? "https://img.youtube.com/vi/" + q(featuredTalkNode).property('video') + "/maxresdefault.jpg" : null}
-                text = ${String.cropAtWord(q(featuredTalkNode).property('text'), 200, '…')}
-                className = 'imageTeaser--featuredTalk'
-                link = Neos.Neos:NodeUri {
-                    node = ${featuredTalkNode}
-                    absolute = true
-                }
-            }
+            featuredTalk = ${featuredTalkNode}
 
-            // Just show featured talk when defined in the backend
-            featuredTalk.@if.featuredTalkIsSelected = ${featuredTalkNode}
-
-            moreTalks = Neos.Fusion:Loop {
-                // node is speaker here
-            items = ${q(node).backReferenceNodes("speakers").filter('[instanceof Neos.NeosConIo:Talk]').sort('talkDate', 'DESC')}
-
-                @process.wrapWithUl = ${value ? '<ul class="talkList">' + value + '</ul>' : ''}
-                itemName = "node"
-                itemRenderer = Neos.Fusion:Tag {
-                    tagName = 'li'
-                    attributes.class = 'talkList__item'
-                    content = Neos.NeosIo:ImageTeaser {
-                        // node is the talk here
-                    title = ${q(node).property('title')}
-                        image = ${q(node).property('thumbnail')}
-                        fallbackImageUrl = ${(q(node).property('video') && !q(node).property('thumbnail')) ? "https://img.youtube.com/vi/" + q(node).property('video') + "/maxresdefault.jpg" : null}
-                        text = ''
-                        className = 'imageTeaser--relatedTalk'
-                        link = Neos.Neos:NodeUri {
-                            node = ${node}
-                            absolute = true
-                        }
-                    }
-                }
-
-                itemRenderer.@if.talkHasCorrectSpeaker = true
-                itemRenderer.@if.talkIsNotFeatured = ${node.aggregateId.value != featuredTalkNode.aggregateId.value}
-            }
+            moreTalks = ${q(documentNode).backReferenceNodes("speakers").filter('[instanceof Neos.NeosConIo:Talk]').sort('talkDate', 'DESC')}
+            moreTalks.@process.filterFeaturedTalk = ${Array.filter(value, item => item.aggregateId.value != featuredTalkNode.aggregateId.value)}
+            moreTalks.@process.filterFeaturedTalk.@if.set = ${featuredTalkNode}
         }
     }
 }

@@ -7,6 +7,7 @@
   superTypes:
     'Neos.Neos:Content': true
     'Neos.NeosIo:Constraints.SemanticSection': true
+    'Neos.NeosIo:Constraints.Main': true
   ui:
     label: 'Dimension-Aware Button'
     icon: link
@@ -48,33 +49,21 @@
     openInNewTab:
       type: boolean
       defaultValue: false
+      scope: nodeAggregate
       ui:
         label: 'Open in new Tab'
         inspector:
           group: content
           position: 30
     alignment:
-      type: string
-      defaultValue: inline
+      options:
+        preset: 'NeosIo.alignment'
       ui:
         label: 'Button Alignment'
-        reloadIfChanged: true
-        inspector:
-          group: appearance
-          editor: Neos.Neos/Inspector/Editors/SelectBoxEditor
-          editorOptions:
-            values:
-              inline:
-                label: 'Inline (Default)'
-              Left:
-                label: Left
-              Center:
-                label: Center
-              Right:
-                label: Right
     style:
       type: string
       defaultValue: btn--primary
+      scope: nodeAggregate
       ui:
         label: 'Color of the Button'
         reloadIfChanged: true

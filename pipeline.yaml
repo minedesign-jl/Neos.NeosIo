@@ -26,6 +26,13 @@ packages:
 buildDefaults:
   content:
     - './DistributionPackages/Neos.Presentation/**/*.{fusion,js,ts,mts,cpx,html}'
+    - './DistributionPackages/Neos.NeosIo.FeatureList/**/*.{fusion}'
+    - './DistributionPackages/Neos.NeosIo/**/*.{fusion}'
+    - './DistributionPackages/Neos.NeosIo.Blog/**/*.{fusion}'
+    - './DistributionPackages/Neos.NeosConIo/**/*.{fusion}'
+    - './DistributionPackages/Neos.NeosIo.Blog/**/*.{fusion}'
+    - './DistributionPackages/Neos.NeosIo.CaseStudies/**/*.{fusion}'
+    - './DistributionPackages/Neos.NeosIo.ServiceOfferings/**/*.{fusion}'
 
 postcssOptions:
   tailwindcss: true

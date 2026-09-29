@@ -6,9 +6,12 @@
 'Neos.NeosIo:DeviceStage':
   superTypes:
     'Neos.Neos:Content': true
+    'Neos.NeosIo:Constraints.Main': true
+    'Neos.NeosIo:Mixin.InternalTitle': true
   childNodes:
     contents:
       type: 'Neos.Neos:ContentCollection'
+      label: 'Contents'
       constraints:
         nodeTypes:
           '*': false
@@ -17,6 +20,7 @@
           'Neos.NeosIo:Button': true
     devicecontents:
       type: 'Neos.Neos:ContentCollection'
+      label: 'Device Contents'
       constraints:
         nodeTypes:
           '*': false
