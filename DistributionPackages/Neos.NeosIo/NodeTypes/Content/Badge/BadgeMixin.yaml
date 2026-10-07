@@ -35,7 +35,7 @@
       validation:
         'Neos.Neos/Validation/NumberRangeValidator':
           minimum: 1
-        'Neos.Neos/Validation/IntegerValidator': [ ]
+        'Neos.Neos/Validation/IntegerValidator': {}
     highlight:
       type: boolean
       ui:
